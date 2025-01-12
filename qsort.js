@@ -1,10 +1,28 @@
 let quickSortStack = [];
 let quickSortInProgress = false;
 
+function startQuickSort() {
+  switch (sortSpeed) {
+    case "slow":
+      n = 500;
+      break;
+    case "medium":
+      n = 250;
+      break;
+    case "fast":
+      n = 100;
+      break;
+  }
+  populateArray();
+  quickSortStack = [{ low: 0, high: arr.length - 1 }];
+  quickSortInProgress = true;
+  doneSorting = false;
+  animateQuickSort();
+}
+
 function quickSortStep() {
   if (quickSortStack.length === 0) {
     quickSortInProgress = false;
-    arrSorted = true;
     doneSorting = true;
     return;
   }
@@ -32,41 +50,33 @@ function partition(arr, low, high) {
   return i + 1;
 }
 
-function startQuickSort() {
-  populateArray();
-  quickSortStack = [{ low: 0, high: arr.length - 1 }];
-  quickSortInProgress = true;
-  arrSorted = false;
-  doneSorting = false;
-  animateQuickSort();
-}
-
 function animateQuickSort() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  if (quickSortInProgress) {
+  if (!isSorted(arr)) {
     quickSortStep();
+  } else {
+    doneSorting = true;
+    doneSortingAnimation();
+    return;
   }
 
-  for (let r = 0; r < n; r++) {
+  for (let i = 0; i < n; i++) {
     ctx.beginPath();
     if (
       quickSortInProgress &&
-      (r === quickSortStack[quickSortStack.length - 1]?.low ||
-        r === quickSortStack[quickSortStack.length - 1]?.high)
+      (i === quickSortStack[quickSortStack.length - 1]?.low ||
+        i === quickSortStack[quickSortStack.length - 1]?.high)
     ) {
       ctx.fillStyle = "red";
-    } else if (arrSorted) {
-      ctx.fillStyle = "green";
     } else {
       ctx.fillStyle = "white";
     }
     ctx.rect(
-      (r * canvas.width) / n,
-      canvas.height - arr[r],
+      (i * canvas.width) / n,
+      canvas.height - arr[i],
       canvas.width / n,
-      arr[r] - 6
+      arr[i]
     );
     ctx.fill();
   }

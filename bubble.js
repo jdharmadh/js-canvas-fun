@@ -2,9 +2,19 @@ let i = 0;
 let j = 0;
 
 function startBubbleSort() {
+  switch (sortSpeed) {
+    case "slow":
+      n = 100;
+      break;
+    case "medium":
+      n = 75;
+      break;
+    case "fast":
+      n = 50;
+      break;
+  }
   populateArray();
   doneSorting = false;
-  arrSorted = false;
   for (let i = 0; i < n; i++) {
     arr[i] = Math.floor(Math.random() * 400);
   }
@@ -32,29 +42,23 @@ function bubbleSortStep() {
 }
 
 function animateBubbleSort() {
-  // Make the canvas light gray
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (let k = 0; k < 5; k++) {
-    bubbleSortStep();
-  }
-  if (!arrSorted) {
-    arrSorted = isSorted(arr);
-    doneSorting = arrSorted;
+  if (!isSorted(arr)) {
+    for (let k = 0; k < 5; k++) {
+      bubbleSortStep();
+    }
+  } else {
+    doneSorting = true;
+    console.log("done");
+    doneSortingAnimation();
+    return;
   }
   for (let r = 0; r < n; r++) {
     ctx.beginPath();
-    // change the fill style to some random color
     if (r == j) {
-      if (arrSorted) {
-        // play the finishing animation
-        doneSorting = true;
-        ctx.fillStyle = "green";
-        bubbleSpeed = 1;
-      } else {
-        ctx.fillStyle = "red";
-      }
+      ctx.fillStyle = "red";
     } else {
       ctx.fillStyle = "white";
     }
@@ -62,7 +66,7 @@ function animateBubbleSort() {
       (r * canvas.width) / n,
       canvas.height - arr[r],
       canvas.width / n,
-      arr[r] - 6
+      arr[r]
     );
     ctx.fill();
   }
