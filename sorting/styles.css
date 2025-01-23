@@ -1,0 +1,41 @@
+button {
+    background-color: #AEC6CF; /* Pastel Blue */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #B2DFEE; /* Lighter Pastel Blue */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0px; /* Reduced gap */
+    margin-left: 10px; /* Added slight margin from the left */
+}
+
+label {
+    font-size: 14px; /* Adjusted font size */
+    color: #333;
+    font-family: Arial, sans-serif; /* Improved font */
+}
+
+input[type="radio"] {
+    margin-right: 5px; /* Reduced margin */
+}
+
+input[type="radio"]:checked + label {
+    font-weight: bold;
+    color: #AEC6CF;
+}
