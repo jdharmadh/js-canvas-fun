@@ -3,25 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas Animation</title>
+    <title>Canvas</title>
 </head>
 <body>
-    <canvas id="myCanvas" width="1200" height="500" style="border: 3px solid black;"></canvas>
-    <br /><button id="start" onclick="startQuickSort()">Quicksort</button>
-    <br /><button id="start" onclick="startBubbleSort()">Bubble Sort</button>
-    <form>
-        <label>
-            <input type="radio" name="speed" value="slow" onclick="updateSortSpeed('slow')"> Slow
-        </label><br>
-        <label>
-            <input type="radio" name="speed" value="medium" onclick="updateSortSpeed('medium')" checked> Medium
-        </label><br>
-        <label>
-            <input type="radio" name="speed" value="fast" onclick="updateSortSpeed('fast')"> Fast
-        </label>
-    </form>
-    <script src="animate.js"></script>
-    <script src="qsort.js"></script>
-    <script src="bubble.js"></script>
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+    <button id="start" onclick="anim()">Start Animation</button>
+    <script src="script.js"></script>
 </body>
 </html>
