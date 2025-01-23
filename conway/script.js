@@ -2,6 +2,7 @@ const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 let isMouseDown = false;
 let isPlaying = false;
+let tick = 100;
 
 canvas.addEventListener("mousedown", function (e) {
   isMouseDown = true;
@@ -112,7 +113,7 @@ function startGame() {
     }
   }
   cells = newCells;
-  setTimeout(startGame, 100);
+  setTimeout(startGame, tick);
 }
 
 function clearCells() {
@@ -122,4 +123,8 @@ function clearCells() {
     }
   }
   isPlaying = false;
+}
+
+function updateSpeed(x) {
+  tick = (10 - x) * 50;
 }
