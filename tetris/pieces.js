@@ -169,7 +169,7 @@ const pieceO = [
 
 const pieces = [pieceI, pieceJ, pieceL, pieceO, pieceS, pieceZ, pieceT];
 
-const colors = ["cyan", "blue", "orange", "yellow", "green", "red", "purple"];
+const colors = ["cyan", "blue", "brown", "yellow", "green", "red", "purple"];
 
 function randomPiece() {
   return {

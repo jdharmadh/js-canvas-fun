@@ -10,7 +10,6 @@ const squareSize = canvas.width / visibleboardCols;
 currentPiece = { piece: randomPiece(), row: 0, col: 2 };
 
 board = new Array(boardRows);
-
 for (let i = 0; i < boardRows; i++) {
   board[i] = new Array(boardCols);
   for (let j = 0; j < boardCols; j++) {
