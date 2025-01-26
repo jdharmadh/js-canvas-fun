@@ -10,6 +10,7 @@ const squareSize = canvas.width / visibleboardCols;
 currentPiece = { piece: randomPiece(), row: 0, col: 2 };
 
 board = new Array(boardRows);
+
 for (let i = 0; i < boardRows; i++) {
   board[i] = new Array(boardCols);
   for (let j = 0; j < boardCols; j++) {
@@ -34,7 +35,7 @@ function drawBoard() {
       if (board[i][j] == 1) {
         ctx.fillStyle = "orange";
         ctx.fillRect(
-          (j-1) * squareSize,
+          (j - 1) * squareSize,
           (i - 4) * squareSize,
           squareSize,
           squareSize
@@ -60,18 +61,31 @@ document.addEventListener("keydown", function (event) {
       currentPiece.col += 1;
     }
   } else if (event.key === "ArrowUp") {
-    currentPiece.piece = rotatePiece(currentPiece.piece)
-    setPiece(currentPiece.piece, currentPiece.row, currentPiece.col + 1, 1);
+    currentPiece.piece = rotatePiece(currentPiece.piece);
+    setPiece(currentPiece.piece, currentPiece.row, currentPiece.col, 1);
     let wasCollision = existsCollision();
-    setPiece(currentPiece.piece, currentPiece.row, currentPiece.col + 1, -1);
+    setPiece(currentPiece.piece, currentPiece.row, currentPiece.col, -1);
+    currentPiece.piece = unRotatePiece(currentPiece.piece);
     if (!wasCollision) {
-      currentPiece.col += 1;
+      currentPiece.piece = rotatePiece(currentPiece.piece);
     }
   }
 });
 
 function dropPiece() {
-  // if ()
+  for (let i = 4; i < boardRows - 1; i++) {
+    colGood = true;
+    for (let j = 1; j < boardCols - 1; j++) {
+      if (board[i][j] == 0) colGood = false;
+    }
+    if (colGood){
+        for (let k = i; k > 4; k--) {
+            for (let j = 1; j < boardCols - 1; j++) {
+                board[k][j] = board[k - 1][j];
+            }
+        }
+    }
+  }
   setPiece(currentPiece.piece, currentPiece.row + 1, currentPiece.col, 1);
   let wasCollision = existsCollision();
   setPiece(currentPiece.piece, currentPiece.row + 1, currentPiece.col, -1);

@@ -138,7 +138,6 @@ const pieceT = [
     [1, 1, 0],
     [0, 1, 0],
   ],
-  
 ];
 
 const pieceO = [
@@ -168,23 +167,38 @@ const pieceO = [
   ],
 ];
 
-const pieces = [pieceI, pieceJ, pieceL, pieceO, pieceS, pieceZ, pieceT]
+const pieces = [pieceI, pieceJ, pieceL, pieceO, pieceS, pieceZ, pieceT];
+
+const colors = ["cyan", "blue", "orange", "yellow", "green", "red", "purple"];
 
 function randomPiece() {
-    return {piece: getRandomInt(0, pieces.length - 1), rotation: getRandomInt(0, 3)}
+  return {
+    piece: getRandomInt(0, pieces.length - 1),
+    rotation: getRandomInt(0, 3),
+    color: getRandomColor(),
+  };
 }
 
 function rotatePiece(x) {
-    const { piece, rotation } = x;
-    return { piece: piece, rotation: (rotation + 1) % 4 };
+  const { piece, rotation, color } = x;
+  return { piece: piece, rotation: (rotation + 1) % 4, color: color };
+}
+
+function unRotatePiece(x) {
+  const { piece, rotation, color } = x;
+  return { piece: piece, rotation: (rotation + 3) % 4, color: color };
 }
 
 function getPiece(x) {
-    return pieces[x.piece][x.rotation]
+  return pieces[x.piece][x.rotation];
 }
 
 function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomColor() {
+  return colors[getRandomInt(0, colors.length - 1)];
 }
