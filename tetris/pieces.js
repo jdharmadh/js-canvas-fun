@@ -96,11 +96,6 @@ const pieceS = [
 
 const pieceZ = [
   [
-    [0, 1, 0],
-    [1, 1, 0],
-    [1, 0, 0],
-  ],
-  [
     [0, 0, 1],
     [0, 1, 1],
     [0, 1, 0],
@@ -109,6 +104,11 @@ const pieceZ = [
     [0, 0, 0],
     [1, 1, 0],
     [0, 1, 1],
+  ],
+  [
+    [0, 1, 0],
+    [1, 1, 0],
+    [1, 0, 0],
   ],
   [
     [1, 1, 0],
@@ -129,15 +129,16 @@ const pieceT = [
     [0, 1, 0],
   ],
   [
-    [0, 1, 0],
-    [1, 1, 0],
+    [0, 0, 0],
+    [1, 1, 1],
     [0, 1, 0],
   ],
   [
     [0, 1, 0],
-    [0, 1, 1],
+    [1, 1, 0],
     [0, 1, 0],
   ],
+  
 ];
 
 const pieceO = [
@@ -175,7 +176,7 @@ function randomPiece() {
 
 function rotatePiece(x) {
     const { piece, rotation } = x;
-    return { piece: piece, rotation: (rotation + 3) % 4 };
+    return { piece: piece, rotation: (rotation + 1) % 4 };
 }
 
 function getPiece(x) {
