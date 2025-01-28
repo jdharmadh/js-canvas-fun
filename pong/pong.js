@@ -10,10 +10,12 @@ const ballVelocity = 256;
 let ballDirection = { x: 1, y: -1 };
 let ballPosition = { x: canvas.width / 2, y: canvas.height / 2 };
 
+const paddleSpeed = 1500;
+const paddleHeight = 120;
+const paddleWidth = 24;
+
 const playerPosition = { x: 0, y: canvas.height / 2 };
-const playerWidth = 24;
-const playerHeight = 120;
-const playerSpeed = 1500;
+const enemyPosition = { x: canvas.width - paddleWidth, y: canvas.height / 2 };
 
 function draw() {
   ctx.fillStyle = "black";
@@ -27,7 +29,20 @@ function draw() {
   );
 
   ctx.fillStyle = "cyan";
-  ctx.fillRect(playerPosition.x, playerPosition.y - playerHeight/2, playerWidth, playerHeight);
+  ctx.fillRect(
+    playerPosition.x,
+    playerPosition.y - paddleHeight / 2,
+    paddleWidth,
+    paddleHeight
+  );
+
+  ctx.fillStyle = "orange";
+  ctx.fillRect(
+    enemyPosition.x,
+    enemyPosition.y - paddleHeight / 2,
+    paddleWidth,
+    paddleHeight
+  );
 }
 
 function translateBall(seconds) {
@@ -36,7 +51,17 @@ function translateBall(seconds) {
 }
 
 function checkCollision() {
-  if (ballPosition.x >= canvas.width || ballPosition.x - ballSideLength <= 0) {
+  if (
+    ballPosition.x - ballSideLength <= paddleWidth &&
+    playerPosition.y - paddleHeight / 2 < ballPosition.y &&
+    playerPosition.y + paddleHeight / 2 > ballPosition.y
+  ) {
+    ballDirection.x *= -1;
+  }
+  if (ballPosition.x - ballSideLength <= 0) {
+    ballDirection.x *= -1;
+  }
+  if (ballPosition.x >= canvas.width) {
     // hitting the right wall
     ballDirection.x *= -1;
   } else if (
@@ -49,13 +74,14 @@ function checkCollision() {
 }
 
 document.addEventListener("mousemove", function (event) {
-    const rect = canvas.getBoundingClientRect();
-    let y = event.clientY - rect.top;
-    if (y < playerHeight/2) y = playerHeight/2;
-    if (y > canvas.height - playerHeight/2) y = canvas.height - playerHeight/2;
-    playerPosition.y = y;
-  });
-  
+  const rect = canvas.getBoundingClientRect();
+  let y = event.clientY - rect.top;
+  if (y < paddleHeight / 2) y = paddleHeight / 2;
+  if (y > canvas.height - paddleHeight / 2)
+    y = canvas.height - paddleHeight / 2;
+  playerPosition.y = y;
+});
+
 setInterval(function () {
   translateBall(tickSpeed / 1000);
   checkCollision();
