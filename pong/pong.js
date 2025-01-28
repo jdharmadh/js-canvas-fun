@@ -48,6 +48,13 @@ function draw() {
 function translateBall(seconds) {
   ballPosition.x += ballDirection.x * ballVelocity * seconds;
   ballPosition.y += ballDirection.y * ballVelocity * seconds;
+
+  // move the enemy
+  enemyPosition.y = ballPosition.y;
+  if (enemyPosition.y < paddleHeight / 2) enemyPosition.y = paddleHeight / 2;
+  if (enemyPosition.y > canvas.height - paddleHeight / 2) {
+    enemyPosition.y = canvas.height - paddleHeight / 2;
+  }
 }
 
 function checkCollision() {
@@ -56,22 +63,39 @@ function checkCollision() {
     playerPosition.y - paddleHeight / 2 < ballPosition.y &&
     playerPosition.y + paddleHeight / 2 > ballPosition.y
   ) {
-    ballDirection.x *= -1;
+    flipX();
   }
+
+  if (
+    ballPosition.x >= canvas.width - paddleWidth &&
+    enemyPosition.y - paddleHeight / 2 < ballPosition.y &&
+    enemyPosition.y + paddleHeight / 2 > ballPosition.y
+  ) {
+    flipX();
+  }
+
   if (ballPosition.x - ballSideLength <= 0) {
-    ballDirection.x *= -1;
+    flipX();
   }
   if (ballPosition.x >= canvas.width) {
     // hitting the right wall
-    ballDirection.x *= -1;
+    flipX();
   } else if (
     ballPosition.y >= canvas.height ||
     ballPosition.y - ballSideLength <= 0
   ) {
     // hitting the right wall
-    ballDirection.y *= -1;
+    flipY();
   }
 }
+
+function flipX() {
+  ballDirection.x *= -1 - Math.random() / 10;
+}
+
+function flipY() {
+    ballDirection.y *= -1 - Math.random() / 10;
+    }
 
 document.addEventListener("mousemove", function (event) {
   const rect = canvas.getBoundingClientRect();
