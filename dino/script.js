@@ -40,6 +40,21 @@ function draw() {
       obstacles[i].height
     );
   }
+
+  if (hasLost) {
+    console.log("You lost!");
+    const despairImage = new Image();
+    despairImage.src = "./despair.png";
+    despairImage.onload = function () {
+      ctx.drawImage(
+        despairImage,
+        canvas.width / 2 - 50,
+        canvas.height / 2 - 50,
+        100,
+        100
+      );
+    };
+  }
 }
 
 function update(ms) {
@@ -64,9 +79,8 @@ function update(ms) {
       dinoY < obstacles[i].y + obstacles[i].height &&
       dinoY + dinoHeight > obstacles[i].y
     ) {
-      obstacles = [];
-      dinoY = canvas.height - dinoHeight;
-      dinoYVelocity = 0;
+      hasLost = true;
+      draw();
     }
   }
 }
@@ -74,10 +88,18 @@ function update(ms) {
 document.addEventListener("keydown", function (event) {
   if (event.code === "ArrowUp") {
     if (dinoY === canvas.height - dinoHeight) dinoYVelocity = 400;
+  } else if (event.code === "Space") {
+    if (hasLost) {
+      dinoY = canvas.height - dinoHeight;
+      dinoYVelocity = 0;
+      hasLost = false;
+      obstacles = [];
+    }
   }
 });
 
 setInterval(function () {
+  if (hasLost) return;
   update(tickSpeed);
   draw();
 }, tickSpeed);
