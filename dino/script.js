@@ -1,72 +1,57 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+const dinosaurImage = new Image();
+dinosaurImage.src = "./dino.webp";
+const cactusImage = new Image();
+cactusImage.src = "./cactus3.webp";
 
-const dinoGravity = -18;
+//Game State
 const tickSpeed = 20;
-
+const dinoGravity = -18;
 const dinoWidth = 80;
 const dinoHeight = 80;
 const dinoX = 60;
 dinoY = canvas.height - dinoHeight;
 dinoYVelocity = 0;
-
 hasLost = false;
-
 obstacles = [];
-
 score = 0;
 
-const dinosaurImage = new Image();
-dinosaurImage.src = "./dino.webp";
-
-const cactusImage = new Image();
-cactusImage.src = "./cactus3.webp";
-
-function getRandomObstacle() {
-    return {
-        x: canvas.width,
-        y: canvas.height - 40,
-        width: 40,
-        height: 40,
-        speed: 300 + score * 50,
-    };
-}
-
 function draw() {
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(dinosaurImage, dinoX, dinoY, dinoWidth, dinoHeight);
+  ctx.drawImage(dinosaurImage, dinoX, dinoY, dinoWidth, dinoHeight);
 
-    ctx.fillStyle = "orange";
-    for (let i = 0; i < obstacles.length; i++) {
-        ctx.drawImage(
-            cactusImage,
-            obstacles[i].x,
-            obstacles[i].y,
-            obstacles[i].width,
-            obstacles[i].height
-        );
-    }
+  ctx.fillStyle = "orange";
+  for (let i = 0; i < obstacles.length; i++) {
+    ctx.drawImage(
+      cactusImage,
+      obstacles[i].x,
+      obstacles[i].y,
+      obstacles[i].width,
+      obstacles[i].height
+    );
+  }
 
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText("Score: " + score, 10, 30);
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "black";
+  ctx.fillText("Score: " + score, 10, 30);
 
-    if (hasLost) {
-        console.log("You lost!");
-        const despairImage = new Image();
-        despairImage.src = "./despair.png";
-        despairImage.onload = function () {
-            ctx.drawImage(
-                despairImage,
-                canvas.width / 2 - 50,
-                canvas.height / 2 - 50,
-                100,
-                100
-            );
-        };
-    }
+  if (hasLost) {
+    console.log("You lost!");
+    const despairImage = new Image();
+    despairImage.src = "./despair.png";
+    despairImage.onload = function () {
+      ctx.drawImage(
+        despairImage,
+        canvas.width / 2 - 50,
+        canvas.height / 2 - 50,
+        100,
+        100
+      );
+    };
+  }
 }
 
 function update(ms) {
@@ -83,7 +68,7 @@ function update(ms) {
     obstacles[i].x -= obstacles[i].speed * (ms / 1000);
     if (obstacles[i].x + obstacles[i].width < 0) {
       obstacles.splice(i, 1);
-        score++;
+      score++;
     }
 
     if (
@@ -96,6 +81,16 @@ function update(ms) {
       draw();
     }
   }
+}
+
+function getRandomObstacle() {
+  return {
+    x: canvas.width,
+    y: canvas.height - 40,
+    width: 40,
+    height: 40,
+    speed: 300 + score * 50,
+  };
 }
 
 document.addEventListener("keydown", function (event) {
