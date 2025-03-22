@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tetris</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <canvas id="myCanvas" width="400" height="800"></canvas>
-    <br/><button id="back" onclick="window.location.href='../index.html'" style="background-color: rgb(88, 94, 88); color: white;">Back</button>
+    <div class="buttons">
+      <br /><button
+        id="back"
+        onclick="window.location.href='../index.html'"
+        style="background-color: rgb(88, 94, 88); color: white"
+      >
+        Back
+      </button>
+      <br /><button
+        class="pause"
+        onclick="pauseUnpause()"
+        style="background-color: rgb(149, 213, 120); color: white"
+      >
+        Pause
+      </button>
+      <input
+        type="range"
+        id="speedRange"
+        name="speedRange"
+        min="1"
+        max="10"
+        value="5"
+        oninput="updateSpeed(this.value)"
+      />
+    </div>
     <script src="pieces.js"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

@@ -6,11 +6,13 @@ const visibleBoardRows = 20;
 const boardCols = 12;
 const visibleboardCols = 10;
 const squareSize = canvas.width / visibleboardCols;
+let tick = 100;
 
+playing = true;
 currentPiece = { piece: randomPiece(), row: 0, col: 2 };
 
 board = new Array(boardRows);
-colorBoard = new Array(boardRows); // for fixed colors only
+colorBoard = new Array(boardRows);
 for (let i = 0; i < boardRows; i++) {
   board[i] = new Array(boardCols);
   colorBoard[i] = new Array(boardCols);
@@ -31,13 +33,13 @@ function setPiece(piece, row, col, num) {
   }
 }
 
-function setColor(piece, row, col, unset=false) {
+function setColor(piece, row, col, unset = false) {
   gottenPiece = getPiece(piece);
   for (let i = 0; i < gottenPiece.length; i++) {
     for (let j = 0; j < gottenPiece[0].length; j++) {
       if (row + i < boardRows && col + j >= 0 && col + j < boardCols)
-        if (gottenPiece[i][j] == 1){
-          colorBoard[row+i][col+j] = unset ? "black" : piece.color;
+        if (gottenPiece[i][j] == 1) {
+          colorBoard[row + i][col + j] = unset ? "black" : piece.color;
         }
     }
   }
@@ -51,8 +53,8 @@ function drawBoard() {
         ctx.fillRect(
           (j - 1) * squareSize,
           (i - 4) * squareSize,
-          squareSize,
-          squareSize
+          squareSize - 1,
+          squareSize - 1
         );
       }
     }
@@ -60,6 +62,7 @@ function drawBoard() {
 }
 
 document.addEventListener("keydown", function (event) {
+  if (!playing) return;
   if (event.key === "ArrowLeft") {
     setPiece(currentPiece.piece, currentPiece.row, currentPiece.col - 1, 1);
     let wasCollision = existsCollision();
@@ -87,6 +90,7 @@ document.addEventListener("keydown", function (event) {
 });
 
 function dropPiece() {
+  if (!playing) return;
   for (let i = 4; i < boardRows - 1; i++) {
     colGood = true;
     for (let j = 1; j < boardCols - 1; j++) {
@@ -107,13 +111,14 @@ function dropPiece() {
     currentPiece.row += 1;
   } else {
     setPiece(currentPiece.piece, currentPiece.row, currentPiece.col, 1);
-    setColor(currentPiece.piece, currentPiece.row, currentPiece.col)
+    setColor(currentPiece.piece, currentPiece.row, currentPiece.col);
     currentPiece = {
       piece: randomPiece(),
       row: 0,
       col: Math.floor(boardCols / 2) - 1,
     };
   }
+  setTimeout(dropPiece, tick);
 }
 
 function existsCollision() {
@@ -127,7 +132,17 @@ function existsCollision() {
   return false;
 }
 
+function pauseUnpause() {
+  playing = !playing;
+  dropPiece();
+}
+
+function updateSpeed(x) {
+  tick = (10 - x) * 40;
+}
+
 function gameLoop() {
+  if (!playing) return;
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   setPiece(currentPiece.piece, currentPiece.row, currentPiece.col, 1);
@@ -137,5 +152,5 @@ function gameLoop() {
   setColor(currentPiece.piece, currentPiece.row, currentPiece.col, true);
 }
 
-setInterval(gameLoop, 100);
-setInterval(dropPiece, 100);
+setInterval(gameLoop, 15);
+dropPiece();
