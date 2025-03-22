@@ -10,11 +10,14 @@ const squareSize = canvas.width / visibleboardCols;
 currentPiece = { piece: randomPiece(), row: 0, col: 2 };
 
 board = new Array(boardRows);
+colorBoard = new Array(boardRows); // for fixed colors only
 for (let i = 0; i < boardRows; i++) {
   board[i] = new Array(boardCols);
+  colorBoard[i] = new Array(boardCols);
   for (let j = 0; j < boardCols; j++) {
     if (i === boardRows - 1 || j == 0 || j == boardCols - 1) board[i][j] = 1;
     else board[i][j] = 0;
+    colorBoard[i][j] = "red";
   }
 }
 
@@ -28,11 +31,23 @@ function setPiece(piece, row, col, num) {
   }
 }
 
+function setColor(piece, row, col, unset=false) {
+  gottenPiece = getPiece(piece);
+  for (let i = 0; i < gottenPiece.length; i++) {
+    for (let j = 0; j < gottenPiece[0].length; j++) {
+      if (row + i < boardRows && col + j >= 0 && col + j < boardCols)
+        if (gottenPiece[i][j] == 1){
+          colorBoard[row+i][col+j] = unset ? "black" : piece.color;
+        }
+    }
+  }
+}
+
 function drawBoard() {
   for (let i = 4; i < boardRows - 1; i++) {
     for (let j = 1; j < boardCols - 1; j++) {
       if (board[i][j] == 1) {
-        ctx.fillStyle = "orange";
+        ctx.fillStyle = colorBoard[i][j];
         ctx.fillRect(
           (j - 1) * squareSize,
           (i - 4) * squareSize,
@@ -77,12 +92,12 @@ function dropPiece() {
     for (let j = 1; j < boardCols - 1; j++) {
       if (board[i][j] == 0) colGood = false;
     }
-    if (colGood){
-        for (let k = i; k > 4; k--) {
-            for (let j = 1; j < boardCols - 1; j++) {
-                board[k][j] = board[k - 1][j];
-            }
+    if (colGood) {
+      for (let k = i; k > 4; k--) {
+        for (let j = 1; j < boardCols - 1; j++) {
+          board[k][j] = board[k - 1][j];
         }
+      }
     }
   }
   setPiece(currentPiece.piece, currentPiece.row + 1, currentPiece.col, 1);
@@ -92,6 +107,7 @@ function dropPiece() {
     currentPiece.row += 1;
   } else {
     setPiece(currentPiece.piece, currentPiece.row, currentPiece.col, 1);
+    setColor(currentPiece.piece, currentPiece.row, currentPiece.col)
     currentPiece = {
       piece: randomPiece(),
       row: 0,
@@ -101,11 +117,9 @@ function dropPiece() {
 }
 
 function existsCollision() {
-  console.log(board);
   for (let i = 0; i < boardRows; i++) {
     for (let j = 0; j < boardCols; j++) {
       if (board[i][j] > 1) {
-        console.log("collision!");
         return true;
       }
     }
@@ -117,8 +131,10 @@ function gameLoop() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   setPiece(currentPiece.piece, currentPiece.row, currentPiece.col, 1);
+  setColor(currentPiece.piece, currentPiece.row, currentPiece.col);
   drawBoard();
   setPiece(currentPiece.piece, currentPiece.row, currentPiece.col, -1);
+  setColor(currentPiece.piece, currentPiece.row, currentPiece.col, true);
 }
 
 setInterval(gameLoop, 100);

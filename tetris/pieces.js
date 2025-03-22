@@ -172,10 +172,11 @@ const pieces = [pieceI, pieceJ, pieceL, pieceO, pieceS, pieceZ, pieceT];
 const colors = ["cyan", "blue", "brown", "yellow", "green", "red", "purple"];
 
 function randomPiece() {
+  idx = getRandomInt(0, pieces.length - 1)
   return {
-    piece: getRandomInt(0, pieces.length - 1),
+    piece: idx,
     rotation: getRandomInt(0, 3),
-    color: getRandomColor(),
+    color: colors[idx],
   };
 }
 
@@ -197,8 +198,4 @@ function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getRandomColor() {
-  return colors[getRandomInt(0, colors.length - 1)];
 }
