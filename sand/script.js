@@ -15,18 +15,29 @@ function reset() {
   for (let i = 0; i < ROWS; i++) {
     cells[i] = new Array(COLS);
     for (let j = 0; j < COLS; j++) {
-      cells[i][j] = { color: BLACK };
+      cells[i][j] = { color: BLACK, used: false };
     }
   }
 }
 
 function updateGrid() {
+  // set every cell to unused
+  for (let i = 0; i < ROWS; i++) {
+    for (let j = 0; j < COLS; j++) {
+      cells[i][j].used = false;
+    }
+  }
   // check the falling
   for (let i = ROWS - 2; i >= 0; i--) {
     for (let j = COLS - 1; j >= 0; j--) {
-      if (cells[i][j].color != BLACK && cells[i + 1][j].color == BLACK) {
+      if (
+        cells[i][j].color != BLACK &&
+        cells[i + 1][j].color == BLACK &&
+        !cells[i][j].used
+      ) {
         cells[i + 1][j].color = cells[i][j].color;
         cells[i][j].color = BLACK;
+        cells[i + 1][j].used = true;
       }
     }
   }
@@ -41,12 +52,22 @@ function updateGrid() {
         ((j - 1 >= 0 && cells[i + 1][j - 1].color == BLACK) ||
           (j + 1 < COLS && cells[i + 1][j + 1].color == BLACK))
       ) {
-        if (j - 1 >= 0 && cells[i + 1][j - 1].color == BLACK) {
+        if (
+          j - 1 >= 0 &&
+          cells[i + 1][j - 1].color == BLACK &&
+          !cells[i][j].used
+        ) {
           cells[i + 1][j - 1].color = cells[i][j].color;
           cells[i][j].color = BLACK;
-        } else if (j + 1 < COLS && cells[i + 1][j + 1].color == BLACK) {
+          cells[i + 1][j - 1].used = true;
+        } else if (
+          j + 1 < COLS &&
+          cells[i + 1][j + 1].color == BLACK &&
+          !cells[i][j].used
+        ) {
           cells[i + 1][j + 1].color = cells[i][j].color;
           cells[i][j].color = BLACK;
+          cells[i + 1][j + 1].used = true;
         }
       }
     }
@@ -91,21 +112,20 @@ function handleMouse(event) {
   const row = Math.floor(y / pixelSize);
   const col = Math.floor(x / pixelSize);
   hsl = (hsl + 2) % 360;
-  createCell(row, col)
+  createCell(row, col);
   createCell(row - 1, col);
-    createCell(row + 1, col);
-    createCell(row, col - 1);
-    createCell(row, col + 1);
-    createCell(row - 1, col - 1);
-    createCell(row - 1, col + 1);
-    createCell(row + 1, col - 1);
-    createCell(row + 1, col + 1);
-    drawGrid();
-  
+  createCell(row + 1, col);
+  createCell(row, col - 1);
+  createCell(row, col + 1);
+  createCell(row - 1, col - 1);
+  createCell(row - 1, col + 1);
+  createCell(row + 1, col - 1);
+  createCell(row + 1, col + 1);
+  drawGrid();
 }
 
 function createCell(row, col) {
-    if (
+  if (
     row >= 0 &&
     row < cells.length &&
     col >= 0 &&
