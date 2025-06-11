@@ -3,52 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas</title>
+    <title>Games</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
             margin: 0;
             padding: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-        }
-        h1 {
-            color: #333;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin: 10px 0;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-            font-size: 18px;
-        }
-        a:hover {
-            text-decoration: underline;
         }
         .container {
-            background-color: #fff;
-            padding: 50px;
-            border-radius: 24px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255,255,255,0.95);
+            padding: 48px 36px;
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
             text-align: center;
+            min-width: 320px;
+        }
+        h1 {
+            color: #2d3a4b;
+            margin-bottom: 32px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin: 18px 0;
+        }
+        a {
+            display: inline-block;
+            width: 240px;
+            background: linear-gradient(90deg, #89f7fe 0%, #66a6ff 100%);
+            color: #1a237e;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 18px;
+            box-shadow: 0 2px 8px rgba(102,166,255,0.08);
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            text-align: center;
+        }
+        a:hover {
+            background: linear-gradient(90deg, #66a6ff 0%, #89f7fe 100%);
+            color: #0d133d;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 6px 18px rgba(102,166,255,0.18);
+            text-decoration: none;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 24px 8px;
+                min-width: unset;
+            }
+            a {
+                font-size: 1rem;
+                padding: 10px 12px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>🎨 Canvas Fun</h1>
         <ul>
-            <li><a href="./conway/index.html">Conway's Game of Life</a></li>
-            <li><a href="./sorting/index.html">Sorting Visualizer</a></li>
-            <li><a href="./dino/index.html">Chrome Dino</a></li>
-            <li><a href="./tetris/index.html">Tetris</a></li>
+            <li><a href="./noise/index.html">🌌 Perlin Noise</a></li>
+            <li><a href="./sand/index.html">🏖️ Sand Simulator</a></li>
+            <li><a href="./conway/index.html">🧬 Conway's Game of Life</a></li>
+            <li><a href="./sorting/index.html">📊 Sorting Visualizer</a></li>
+            <li><a href="./dino/index.html">🦖 Chrome Dino</a></li>
+            <li><a href="./tetris/index.html">🧩 Tetris</a></li>
+            <li><a href="./eyes/index.html">👀 Eyes</a></li>
+
         </ul>
     </div>
 </body>
